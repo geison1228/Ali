@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Vida - Alison 🌹</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            /* Imagen de fondo de rosas estéticas */
+            background: url('Copilot_20260411_233841.png') no-repeat center center fixed; 
+            background-size: cover;
+            color: #0f0000; 
+            text-align: center; 
+            padding: 20px; 
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container { 
+            max-width: 500px; 
+            background: rgba(243, 117, 195, 0.85); /* Fondo blanco con transparencia para ver las rosas */
+            padding: 40px; 
+            border-radius: 30px; 
+            border: 2px solid #ffb6c1; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px); /* Efecto de desenfoque sutil tras el cuadro */
+        }
+        h1 { color: #faeaf2; margin-bottom: 5px; font-size: 2rem; }
+        p { color: #1e93e0; margin-bottom: 25px; font-weight: 500; }
+        #mensaje { 
+            font-size: 1.4rem; 
+            margin: 30px 0; 
+            min-height: 140px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic; 
+            color: #333;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+        button { 
+            background: #fd0782; 
+            color: #f7f7f7; 
+            border: none; 
+            padding: 18px 35px; 
+            border-radius: 50px; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            transition: 0.4s; 
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+        }
+        button:hover { 
+            background: #ff6f61; 
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 111, 97, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>¡Vamos, Mi Niña! 🌹</h1>
+        <p>Tu Dojo de motivación, Alli</p>
+        
+        <div id="mensaje">"Presiona el botón para recibir tu energía de guerrera hoy."</div>
+        
+        <button onclick="nuevoMensaje()">Dame fuerzas</button>
+    </div>
+
+    <script>
+        const mensajes = [
+            "Mi vida, ver tu disciplina y cómo te esfuerzas me hace admirarte y quererte cada día más.",
+            "No solo eres la mujer más hermosa, sino también la más fuerte. ¡Orgulloso de ti, mi vida!",
+            "Como diría Gojo: No te preocupes, mi vida, tú eres la más fuerte.",
+            "¡El trabajo duro vence al talento natural! Eres una guerrera de cinta negra.",
+            "Naruto no se rindió, y tú tampoco. ¡Hoy vas a arrasar, mi vida!",
+            "Tu fuerza interior es más grande que cualquier obstáculo. ¡Dale con todo!",
+            "Un día a la vez, una repetición a la vez. Eres increíble, mi vida.",
+            "Dominio total: así como en el tatami, vas a dominar tus metas hoy.",
+            "Mi vida, tu energía maldita hoy es pura disciplina. ¡A entrenar!",
+            "¿Cansada? Respira como un shinobi, enfócate y sigue, mi vida.",
+            "Tu técnica es perfecta, pero tu corazón de guerrera es lo que te hace invencible.",
+            "¡Demuéstrale al mundo de qué está hecha una cinta negra!",
+            "Aplica la técnica del 'Black Flash': enfócate y rompe tus propios récords.",
+            "Confío en ti y en tu capacidad para lograr todo lo que te propongas, mi vida.",
+            "¡Que tu voluntad de fuego arda más fuerte que nunca hoy!",
+            "Eres una experta en superar retos. ¡Esto es solo otro desafío que vas a ganar!",
+            "Como un verdadero ninja, actúas con precisión y fuerza. ¡Eres genial!",
+            "No importa qué tan pesado sea el ejercicio, tu mente es más fuerte, mi vida.",
+            "El esfuerzo de hoy se convertirá en la fuerza de mañana. ¡Sigue así!",
+            "Mi vida, si logras terminar este entrenamiento, ¡te espera un premio especial!",
+            "Entrena duro hoy, mi vida, que verte triunfar es mi parte favorita del día.",
+            "Eres la más fuerte de este Dojo y la dueña de mi corazón. ¡Dalo todo!",
+            "Te quiero ver rompiendo tus propios límites hoy. ¿Aceptas el reto, mi vida?",
+            "Tu sudor es señal de grandeza. Sigue esforzándote, mi vida.",
+            "No dejes que el cansancio te gane. ¡Tú eres invencible, mi vida!",
+            "Hoy es un gran día para ser legendaria. ¡Dale, mi cinta negra favorita!",
+            "Cada gota de sudor te hace más fuerte. ¡No pares ahora, mi vida!",
+            "Si te sientes cansada, piensa en lo increíble que te verás al llegar a la meta.",
+            "Eres mi guerrera preferida. Vamos, mi vida, ¡hoy es tu día!",
+            "Mi vida, gracias por demostrarme que con esfuerzo todo es posible.",
+            "Eres mi ninjita favorita. Verte luchar por tus metas es hermoso.",
+            "¡Hoy no es un día más, es un día para ser mejor que ayer, mi vida!",
+            "Tu perseverancia es mi motivación diaria. ¡Gracias por ser así!",
+            "Recuerda que incluso los más fuertes empezaron desde cero. ¡Tú ya vas adelante!",
+            "Eres imparable. Nunca olvides lo lejos que has llegado, mi vida.",
+            "Tal vez ahora no te puedo dar todo, pero te prometo que en algún momento lo haré, mi niña.",
+            "Mi niña, ver tu disciplina y cómo te esfuerzas en cada entrenamiento me hace admirarte y quererte más cada día.",
+            "Eres mi niña hermosa, pero también la guerrera más fuerte que conozco. ¡Orgulloso de ti siempre!",
+            "Cada vez que te veo entrenar, mi niña, me convenzo más de que no hay meta que te quede grande.",
+            "Tu fuerza me inspira, mi niña. Gracias por enseñarme lo que significa tener una voluntad de hierro.",
+            "Eres mi niña favorita. Verte luchar por tus metas es el espectáculo más bonito de mi vida.",
+            "No importa qué tan cansada estés, recuerda que para mí siempre eres la ganadora absoluta, mi niña.",
+            "Eres la definición de perfección: inteligente, disciplinada y la más guapa de todas, mi niña.",
+            "Mi niña, gracias por demostrarme que con esfuerzo todo es posible. Eres mi ejemplo a seguir.",
+            "Hoy es un gran día para ser legendaria. ¿Lista para demostrar por qué eres mi niña, mi cinta negra favorita?",
+            "Mi vida, ver tu disciplina y cómo te esfuerzas me hace admirarte y quererte cada día más.",
+            "No solo eres la mujer más hermosa, sino también la más fuerte. ¡Orgulloso de ti, mi vida!",
+            "Como diría Gojo: No te preocupes, mi vida, tú eres la más fuerte.",
+            "¡El trabajo duro vence al talento natural! Eres una guerrera de cinta negra.",
+            "Naruto no se rindió, y tú tampoco. ¡Hoy vas a arrasar, mi vida!",
+            "Tu fuerza interior es más grande que cualquier obstáculo. ¡Dale con todo!",
+            "Un día a la vez, una repetición a la vez. Eres increíble, mi vida.",
+            "Dominio total: así como en el tatami, vas a dominar tus metas hoy.",
+            "Mi vida, cada paso que das me hace soñar con un futuro brillante a tu lado.",
+            "¿Cansada? Respira como un shinobi, enfócate y sigue, mi vida.",
+            "Tu técnica es perfecta, pero tu corazón de guerrera es lo que te hace invencible.",
+            "¡Demuéstrale al mundo de qué está hecha una cinta negra!",
+            "Tu sonrisa después de entrenar es mi imagen favorita en todo el mundo, mi vida.",
+            "Confío en ti y en tu capacidad para lograr todo lo que te propongas, mi vida.",
+            "¡Que tu voluntad de fuego arda más fuerte que nunca hoy!",
+            "Eres una experta en superar retos. ¡Esto es solo otro desafío que vas a ganar!",
+            "A tu lado, mi vida, siento que yo también puedo conquistar cualquier meta.",
+            "No importa qué tan pesado sea el ejercicio, tu mente es más fuerte, mi vida.",
+            "El esfuerzo de hoy se convertirá en la fuerza de mañana. ¡Sigue así!",
+            "Mi vida, eres la razón por la que siempre quiero ser la mejor versión de mí mismo.",
+            "Entrena duro hoy, mi vida, que verte triunfar es mi parte favorita del día.",
+            "Eres la más fuerte de este Dojo y la dueña absoluta de mi corazón. ¡Dalo todo!",
+            "Cada meta que alcanzas es un motivo más para celebrar lo increíble que eres.",
+            "Tu sudor es señal de grandeza. Sigue esforzándote, mi vida.",
+            "No dejes que el cansancio te gane. ¡Tú eres invencible, mi vida!",
+            "Eres mi refugio y mi mayor orgullo. ¡Vamos con todo hoy, mi vida!",
+            "Cada gota de sudor te hace más fuerte. ¡No pares ahora, mi vida!",
+            "Si te sientes cansada, piensa en lo increíble que te verás al llegar a la meta.",
+            "Eres mi guerrera preferida. Vamos, mi vida, ¡hoy es tu día!",
+            "No hay distancia ni obstáculo que apague lo que siento por ti, mi vida.",
+            "Tu perseverancia es mi motivación diaria. ¡Gracias por ser así!",
+            "Recuerda que incluso los más fuertes empezaron desde cero. ¡Tú ya vas adelante!",
+            "Eres imparable. Nunca olvides lo lejos que has llegado, mi vida.",
+            "Mi vida, eres el tesoro más grande que la vida me ha dado.",
+            "Eres la combinación perfecta de ternura y fuerza bruta, mi vida."
+        ];
+
+        function nuevoMensaje() {
+            const indice = Math.floor(Math.random() * mensajes.length);
+            document.getElementById('mensaje').innerText = '"' + mensajes[indice] + '"';
+        }
+    </script>
+</body>
+</html>
