@@ -7,7 +7,6 @@
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            /* Imagen de fondo de rosas estéticas */
             background: url('Copilot_20260411_233841.png') no-repeat center center fixed; 
             background-size: cover;
             color: #0f0000; 
@@ -21,19 +20,21 @@
         }
         .container { 
             max-width: 500px; 
-            background: rgba(243, 117, 195, 0.85); /* Fondo blanco con transparencia para ver las rosas */
+            background: rgba(243, 117, 195, 0.85); 
             padding: 40px; 
             border-radius: 30px; 
             border: 2px solid #ffb6c1; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            backdrop-filter: blur(5px); /* Efecto de desenfoque sutil tras el cuadro */
+            backdrop-filter: blur(5px); 
         }
         h1 { color: #faeaf2; margin-bottom: 5px; font-size: 2rem; }
         p { color: #1e93e0; margin-bottom: 25px; font-weight: 500; }
+        
         #mensaje { 
             font-size: 1.4rem; 
-            margin: 30px 0; 
-            min-height: 140px; 
+            margin-top: 30px; 
+            margin-bottom: 15px;
+            min-height: 100px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -42,6 +43,38 @@
             line-height: 1.5;
             font-weight: 400;
         }
+
+        /* --- Nueva Sección de Inglés --- */
+        .english-box {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: none; /* Se muestra solo si la frase tiene inglés */
+            animation: fadeIn 0.5s ease;
+        }
+        .en-phrase {
+            font-size: 1.1rem;
+            color: #4a0e2e;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+        .vocab-tag {
+            display: inline-block;
+            background: #faeaf2;
+            color: #fd0782;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: help;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* ------------------------------- */
+
         button { 
             background: #fd0782; 
             color: #f7f7f7; 
@@ -69,96 +102,306 @@
         
         <div id="mensaje">"Presiona el botón para recibir tu energía de guerrera hoy."</div>
         
+        <div id="englishContainer" class="english-box">
+            <p id="fraseIngles" class="en-phrase"></p>
+            <span id="vocabulario" class="vocab-tag"></span>
+        </div>
+        
         <button onclick="nuevoMensaje()">Dame fuerzas</button>
     </div>
 
     <script>
+        // Tu lista completa de frases convertida a objetos con Inglés y Vocabulario 💡
         const mensajes = [
-            "Mi vida, ver tu disciplina y cómo te esfuerzas me hace admirarte y quererte cada día más.",
-            "No solo eres la mujer más hermosa, sino también la más fuerte. ¡Orgulloso de ti, mi vida!",
-            "Como diría Gojo: No te preocupes, mi vida, tú eres la más fuerte.",
-            "¡El trabajo duro vence al talento natural! Eres una guerrera de cinta negra.",
-            "Naruto no se rindió, y tú tampoco. ¡Hoy vas a arrasar, mi vida!",
-            "Tu fuerza interior es más grande que cualquier obstáculo. ¡Dale con todo!",
-            "Un día a la vez, una repetición a la vez. Eres increíble, mi vida.",
-            "Dominio total: así como en el tatami, vas a dominar tus metas hoy.",
-            "Mi vida, tu energía maldita hoy es pura disciplina. ¡A entrenar!",
-            "¿Cansada? Respira como un shinobi, enfócate y sigue, mi vida.",
-            "Tu técnica es perfecta, pero tu corazón de guerrera es lo que te hace invencible.",
-            "¡Demuéstrale al mundo de qué está hecha una cinta negra!",
-            "Aplica la técnica del 'Black Flash': enfócate y rompe tus propios récords.",
-            "Confío en ti y en tu capacidad para lograr todo lo que te propongas, mi vida.",
-            "¡Que tu voluntad de fuego arda más fuerte que nunca hoy!",
-            "Eres una experta en superar retos. ¡Esto es solo otro desafío que vas a ganar!",
-            "Como un verdadero ninja, actúas con precisión y fuerza. ¡Eres genial!",
-            "No importa qué tan pesado sea el ejercicio, tu mente es más fuerte, mi vida.",
-            "El esfuerzo de hoy se convertirá en la fuerza de mañana. ¡Sigue así!",
-            "Mi vida, si logras terminar este entrenamiento, ¡te espera un premio especial!",
-            "Entrena duro hoy, mi vida, que verte triunfar es mi parte favorita del día.",
-            "Eres la más fuerte de este Dojo y la dueña de mi corazón. ¡Dalo todo!",
-            "Te quiero ver rompiendo tus propios límites hoy. ¿Aceptas el reto, mi vida?",
-            "Tu sudor es señal de grandeza. Sigue esforzándote, mi vida.",
-            "No dejes que el cansancio te gane. ¡Tú eres invencible, mi vida!",
-            "Hoy es un gran día para ser legendaria. ¡Dale, mi cinta negra favorita!",
-            "Cada gota de sudor te hace más fuerte. ¡No pares ahora, mi vida!",
-            "Si te sientes cansada, piensa en lo increíble que te verás al llegar a la meta.",
-            "Eres mi guerrera preferida. Vamos, mi vida, ¡hoy es tu día!",
-            "Mi vida, gracias por demostrarme que con esfuerzo todo es posible.",
-            "Eres mi ninjita favorita. Verte luchar por tus metas es hermoso.",
-            "¡Hoy no es un día más, es un día para ser mejor que ayer, mi vida!",
-            "Tu perseverancia es mi motivación diaria. ¡Gracias por ser así!",
-            "Recuerda que incluso los más fuertes empezaron desde cero. ¡Tú ya vas adelante!",
-            "Eres imparable. Nunca olvides lo lejos que has llegado, mi vida.",
-            "Tal vez ahora no te puedo dar todo, pero te prometo que en algún momento lo haré, mi niña.",
-            "Mi niña, ver tu disciplina y cómo te esfuerzas en cada entrenamiento me hace admirarte y quererte más cada día.",
-            "Eres mi niña hermosa, pero también la guerrera más fuerte que conozco. ¡Orgulloso de ti siempre!",
-            "Cada vez que te veo entrenar, mi niña, me convenzo más de que no hay meta que te quede grande.",
-            "Tu fuerza me inspira, mi niña. Gracias por enseñarme lo que significa tener una voluntad de hierro.",
-            "Eres mi niña favorita. Verte luchar por tus metas es el espectáculo más bonito de mi vida.",
-            "No importa qué tan cansada estés, recuerda que para mí siempre eres la ganadora absoluta, mi niña.",
-            "Eres la definición de perfección: inteligente, disciplinada y la más guapa de todas, mi niña.",
-            "Mi niña, gracias por demostrarme que con esfuerzo todo es posible. Eres mi ejemplo a seguir.",
-            "Hoy es un gran día para ser legendaria. ¿Lista para demostrar por qué eres mi niña, mi cinta negra favorita?",
-            "Mi vida, ver tu disciplina y cómo te esfuerzas me hace admirarte y quererte cada día más.",
-            "No solo eres la mujer más hermosa, sino también la más fuerte. ¡Orgulloso de ti, mi vida!",
-            "Como diría Gojo: No te preocupes, mi vida, tú eres la más fuerte.",
-            "¡El trabajo duro vence al talento natural! Eres una guerrera de cinta negra.",
-            "Naruto no se rindió, y tú tampoco. ¡Hoy vas a arrasar, mi vida!",
-            "Tu fuerza interior es más grande que cualquier obstáculo. ¡Dale con todo!",
-            "Un día a la vez, una repetición a la vez. Eres increíble, mi vida.",
-            "Dominio total: así como en el tatami, vas a dominar tus metas hoy.",
-            "Mi vida, cada paso que das me hace soñar con un futuro brillante a tu lado.",
-            "¿Cansada? Respira como un shinobi, enfócate y sigue, mi vida.",
-            "Tu técnica es perfecta, pero tu corazón de guerrera es lo que te hace invencible.",
-            "¡Demuéstrale al mundo de qué está hecha una cinta negra!",
-            "Tu sonrisa después de entrenar es mi imagen favorita en todo el mundo, mi vida.",
-            "Confío en ti y en tu capacidad para lograr todo lo que te propongas, mi vida.",
-            "¡Que tu voluntad de fuego arda más fuerte que nunca hoy!",
-            "Eres una experta en superar retos. ¡Esto es solo otro desafío que vas a ganar!",
-            "A tu lado, mi vida, siento que yo también puedo conquistar cualquier meta.",
-            "No importa qué tan pesado sea el ejercicio, tu mente es más fuerte, mi vida.",
-            "El esfuerzo de hoy se convertirá en la fuerza de mañana. ¡Sigue así!",
-            "Mi vida, eres la razón por la que siempre quiero ser la mejor versión de mí mismo.",
-            "Entrena duro hoy, mi vida, que verte triunfar es mi parte favorita del día.",
-            "Eres la más fuerte de este Dojo y la dueña absoluta de mi corazón. ¡Dalo todo!",
-            "Cada meta que alcanzas es un motivo más para celebrar lo increíble que eres.",
-            "Tu sudor es señal de grandeza. Sigue esforzándote, mi vida.",
-            "No dejes que el cansancio te gane. ¡Tú eres invencible, mi vida!",
-            "Eres mi refugio y mi mayor orgullo. ¡Vamos con todo hoy, mi vida!",
-            "Cada gota de sudor te hace más fuerte. ¡No pares ahora, mi vida!",
-            "Si te sientes cansada, piensa en lo increíble que te verás al llegar a la meta.",
-            "Eres mi guerrera preferida. Vamos, mi vida, ¡hoy es tu día!",
-            "No hay distancia ni obstáculo que apague lo que siento por ti, mi vida.",
-            "Tu perseverancia es mi motivación diaria. ¡Gracias por ser así!",
-            "Recuerda que incluso los más fuertes empezaron desde cero. ¡Tú ya vas adelante!",
-            "Eres imparable. Nunca olvides lo lejos que has llegado, mi vida.",
-            "Mi vida, eres el tesoro más grande que la vida me ha dado.",
-            "Eres la combinación perfecta de ternura y fuerza bruta, mi vida."
+            {
+                es: "Mi vida, ver tu disciplina y cómo te esfuerzas me hace admirarte y quererte cada día más.",
+                en: "My life, seeing your discipline and how you strive makes me admire and love you more every single day.",
+                vocab: "Strive = Esforzarse / Luchar"
+            },
+            {
+                es: "No solo eres la mujer más hermosa, sino también la más fuerte. ¡Orgulloso de ti, mi vida!",
+                en: "You are not only the most beautiful woman, but also the strongest. So proud of you, my life!",
+                vocab: "Strongest = La más fuerte"
+            },
+            {
+                es: "Como diría Gojo: No te preocupes, mi vida, tú eres la más fuerte.",
+                en: "As Gojo would say: Don't worry, my life, you are the strongest.",
+                vocab: "Don't worry = No te preocupes"
+            },
+            {
+                es: "¡El trabajo duro vence al talento natural! Eres una guerrera de cinta negra.",
+                en: "Hard work beats natural talent! You are a black belt warrior.",
+                vocab: "Beats = Vence / Supera"
+            },
+            {
+                es: "Naruto no se rindió, y tú tampoco. ¡Hoy vas a arrasar, mi vida!",
+                en: "Naruto never gave up, and neither will you. You're going to rock today, my life!",
+                vocab: "Give up = Rendirse"
+            },
+            {
+                es: "Tu fuerza interior es más grande que cualquier obstáculo. ¡Dale con todo!",
+                en: "Your inner strength is bigger than any obstacle. Go all out!",
+                vocab: "Inner strength = Fuerza interior"
+            },
+            {
+                es: "Un día a la vez, una repetición a la vez. Eres increíble, mi vida.",
+                en: "One day at a time, one rep at a time. You are amazing, my life.",
+                vocab: "At a time = A la vez"
+            },
+            {
+                es: "Dominio total: así como en el tatami, vas a dominar tus metas hoy.",
+                en: "Total mastery: just like on the tatami, you are going to master your goals today.",
+                vocab: "Mastery = Dominio / Maestría"
+            },
+            {
+                es: "Mi vida, tu energía maldita hoy es pura disciplina. ¡A entrenar!",
+                en: "My life, your cursed energy today is pure discipline. Time to train!",
+                vocab: "Cursed energy = Energía maldita"
+            },
+            {
+                es: "¿Cansada? Respira como un shinobi, enfócate y sigue, mi vida.",
+                en: "Tired? Breathe like a shinobi, focus and keep going, my life.",
+                vocab: "Keep going = Seguir adelante"
+            },
+            {
+                es: "Tu técnica es perfecta, pero tu corazón de guerrera es lo que te hace invencible.",
+                en: "Your technique is perfect, but your warrior heart is what makes you invincible.",
+                vocab: "Warrior = Guerrera"
+            },
+            {
+                es: "¡Demuéstrale al mundo de qué está hecha una cinta negra!",
+                en: "Show the world what a black belt is made of!",
+                vocab: "Show = Demostrar / Mostrar"
+            },
+            {
+                es: "Aplica la técnica del 'Black Flash': enfócate y rompe tus propios récords.",
+                en: "Apply the 'Black Flash' technique: focus and break your own records.",
+                vocab: "Break records = Romper récords"
+            },
+            {
+                es: "Confío en ti y en tu capacidad para lograr todo lo que te propongas, mi vida.",
+                en: "I trust you and your ability to achieve everything you set your mind to, my life.",
+                vocab: "Achieve = Lograr / Alcanzar"
+            },
+            {
+                es: "¡Que tu voluntad de fuego arda más fuerte que nunca hoy!",
+                en: "May your will of fire burn brighter than ever today!",
+                vocab: "Will of fire = Voluntad de fuego"
+            },
+            {
+                es: "Eres una experta en superar retos. ¡Esto es solo otro desafío que vas a ganar!",
+                en: "You are an expert at overcoming challenges. This is just another challenge you are going to win!",
+                vocab: "Overcoming = Superar / Vencer"
+            },
+            {
+                es: "Como un verdadero ninja, actúas con precisión y fuerza. ¡Eres genial!",
+                en: "Like a true ninja, you act with precision and strength. You are awesome!",
+                vocab: "Awesome = Genial / Increíble"
+            },
+            {
+                es: "No importa qué tan pesado sea el ejercicio, tu mente es más fuerte, mi vida.",
+                en: "No matter how heavy the exercise is, your mind is stronger, my life.",
+                vocab: "No matter = No importa"
+            },
+            {
+                es: "El esfuerzo de hoy se convertirá en la fuerza de mañana. ¡Sigue así!",
+                en: "Today's effort will become tomorrow's strength. Keep it up!",
+                vocab: "Keep it up = Sigue así / Mantén el ritmo"
+            },
+            {
+                es: "Mi vida, si logras terminar este entrenamiento, ¡te espera un premio especial!",
+                en: "My life, if you manage to finish this workout, a special prize awaits you!",
+                vocab: "Manage to = Lograr / Conseguir hacer algo"
+            },
+            {
+                es: "Entrena duro hoy, mi vida, que verte triunfar es mi parte favorita del día.",
+                en: "Train hard today, my life, because seeing you succeed is my favorite part of the day.",
+                vocab: "Succeed = Triunfar / Tener éxito"
+            },
+            {
+                es: "Eres la más fuerte de este Dojo y la dueña de mi corazón. ¡Dalo todo!",
+                en: "You are the strongest in this Dojo and the owner of my heart. Give it your all!",
+                vocab: "Give it your all = Dalo todo"
+            },
+            {
+                es: "Te quiero ver rompiendo tus propios límites hoy. ¿Aceptas el reto, mi vida?",
+                en: "I want to see you breaking your own limits today. Do you accept the challenge, my life?",
+                vocab: "Challenge = Reto / Desafío"
+            },
+            {
+                es: "Tu sudor es señal de grandeza. Sigue esforzándote, mi vida.",
+                en: "Your sweat is a sign of greatness. Keep pushing yourself, my life.",
+                vocab: "Sweat = Sudor"
+            },
+            {
+                es: "No dejes que el cansancio te gane. ¡Tú eres invencible, mi vida!",
+                en: "Don't let fatigue beat you. You are invincible, my life!",
+                vocab: "Fatigue = Cansancio / Fatiga"
+            },
+            {
+                es: "Hoy es un gran día para ser legendaria. ¡Dale, mi cinta negra favorita!",
+                en: "Today is a great day to be legendary. Go for it, my favorite black belt!",
+                vocab: "Go for it = Dale / Ve por ello"
+            },
+            {
+                es: "Cada gota de sudor te hace más fuerte. ¡No pares ahora, mi vida!",
+                en: "Every drop of sweat makes you stronger. Don't stop now, my life!",
+                vocab: "Drop = Gota"
+            },
+            {
+                es: "Si te sientes cansada, piensa en lo increíble que te verás al llegar a la meta.",
+                en: "If you feel tired, think about how amazing you will look when you reach the finish line.",
+                vocab: "Reach = Llegar / Alcanzar"
+            },
+            {
+                es: "Eres mi guerrera preferida. Vamos, mi vida, ¡hoy es tu día!",
+                en: "You are my favorite warrior. Come on, my life, today is your day!",
+                vocab: "Come on = Vamos / Dale"
+            },
+            {
+                es: "Mi vida, gracias por demostrarme que con esfuerzo todo es posible.",
+                en: "My life, thank you for showing me that with effort everything is possible.",
+                vocab: "Effort = Esfuerzo"
+            },
+            {
+                es: "Eres mi ninjita favorita. Verte luchar por tus metas es hermoso.",
+                en: "You are my favorite little ninja. Seeing you fight for your goals is beautiful.",
+                vocab: "Goals = Metas / Objetivos"
+            },
+            {
+                es: "¡Hoy no es un día más, es un día para ser mejor que ayer, mi vida!",
+                en: "Today is not just another day, it's a day to be better than yesterday, my life!",
+                vocab: "Better = Mejor"
+            },
+            {
+                es: "Tu perseverancia es mi motivación diaria. ¡Gracias por ser así!",
+                en: "Your perseverance is my daily motivation. Thank you for being the way you are!",
+                vocab: "Daily = Diaria / Cada día"
+            },
+            {
+                es: "Recuerda que incluso los más fuertes empezaron desde cero. ¡Tú ya vas adelante!",
+                en: "Remember that even the strongest started from scratch. You are already ahead!",
+                vocab: "From scratch = Desde cero"
+            },
+            {
+                es: "Eres imparable. Nunca olvides lo lejos que has llegado, mi vida.",
+                en: "You are unstoppable. Never forget how far you have come, my life.",
+                vocab: "Unstoppable = Imparable"
+            },
+            {
+                es: "Tal vez ahora no te puedo dar todo, pero te prometo que en algún momento lo haré, mi niña.",
+                en: "Maybe right now I can't give you everything, but I promise that at some point I will, my girl.",
+                vocab: "At some point = En algún momento"
+            },
+            {
+                es: "Mi niña, ver tu disciplina y cómo te esfuerzas en cada entrenamiento me hace admirarte y quererte más cada día.",
+                en: "My girl, seeing your discipline and how you push yourself in every training session makes me admire and love you more each day.",
+                vocab: "Push yourself = Exigirte / Esforzarte"
+            },
+            {
+                es: "Eres mi niña hermosa, pero también la guerrera más fuerte que conozco. ¡Orgulloso de ti siempre!",
+                en: "You are my beautiful girl, but also the strongest warrior I know. Always proud of you!",
+                vocab: "I know = Conozco / Sé"
+            },
+            {
+                es: "Cada vez que te veo entrenar, mi niña, me convenzo más de que no hay meta que te quede grande.",
+                en: "Every time I see you train, my girl, I become more convinced that no goal is too big for you.",
+                vocab: "Too big = Demasiado grande"
+            },
+            {
+                es: "Tu fuerza me inspira, mi niña. Gracias por enseñarme lo que significa tener una voluntad de hierro.",
+                en: "Your strength inspires me, my girl. Thank you for teaching me what it means to have an iron will.",
+                vocab: "Iron will = Voluntad de hierro"
+            },
+            {
+                es: "Eres mi niña favorita. Verte luchar por tus metas es el espectáculo más bonito de mi vida.",
+                en: "You are my favorite girl. Watching you fight for your goals is the most beautiful sight of my life.",
+                vocab: "Sight = Espectáculo / Vista"
+            },
+            {
+                es: "No importa qué tan cansada estés, recuerda que para mí siempre eres la ganadora absoluta, mi niña.",
+                en: "No matter how tired you are, remember that to me you are always the absolute winner, my girl.",
+                vocab: "Winner = Ganadora"
+            },
+            {
+                es: "Eres la definición de perfección: inteligente, disciplinada y la más guapa de todas, mi niña.",
+                en: "You are the definition of perfection: smart, disciplined, and the prettiest of all, my girl.",
+                vocab: "Smart = Inteligente"
+            },
+            {
+                es: "Mi niña, gracias por demostrarme que con esfuerzo todo es posible. Eres mi ejemplo a seguir.",
+                en: "My girl, thank you for showing me that with effort everything is possible. You are my role model.",
+                vocab: "Role model = Ejemplo a seguir"
+            },
+            {
+                es: "Hoy es un gran día para ser legendaria. ¿Lista para demostrar por qué eres mi niña, mi cinta negra favorita?",
+                en: "Today is a great day to be legendary. Ready to show why you are my girl, my favorite black belt?",
+                vocab: "Ready = Lista / Preparada"
+            },
+            {
+                es: "Mi vida, cada paso que das me hace soñar con un futuro brillante a tu lado.",
+                en: "My life, every step you take makes me dream of a bright future by your side.",
+                vocab: "By your side = A tu lado"
+            },
+            {
+                es: "Tu sonrisa después de entrenar es mi imagen favorita en todo el mundo, mi vida.",
+                en: "Your smile after training is my favorite image in the whole world, my life.",
+                vocab: "Whole world = Todo el mundo"
+            },
+            {
+                es: "A tu lado, mi vida, siento que yo también puedo conquistar cualquier meta.",
+                en: "By your side, my life, I feel that I can also conquer any goal.",
+                vocab: "Conquer = Conquistar / Vencer"
+            },
+            {
+                es: "Mi vida, eres la razón por la que siempre quiero ser la mejor versión de mí mismo.",
+                en: "My life, you are the reason why I always want to be the best version of myself.",
+                vocab: "Myself = Mí mismo"
+            },
+            {
+                es: "Cada meta que alcanzas es un motivo más para celebrar lo increíble que eres.",
+                en: "Every goal you reach is one more reason to celebrate how amazing you are.",
+                vocab: "Reason = Motivo / Razón"
+            },
+            {
+                es: "Eres mi refugio y mi mayor orgullo. ¡Vamos con todo hoy, mi vida!",
+                en: "You are my shelter and my greatest pride. Let's go all out today, my life!",
+                vocab: "Shelter = Refugio"
+            },
+            {
+                es: "No hay distancia ni obstáculo que apague lo que siento por ti, mi vida.",
+                en: "There is no distance or obstacle that can dull what I feel for you, my life.",
+                vocab: "Dull = Apagar / Atenuar"
+            },
+            {
+                es: "Mi vida, eres el tesoro más grande que la vida me ha dado.",
+                en: "My life, you are the greatest treasure that life has given me.",
+                vocab: "Treasure = Tesoro"
+            },
+            {
+                es: "Eres la combinación perfecta de ternura y fuerza bruta, mi vida.",
+                en: "You are the perfect combination of tenderness and brute strength, my life.",
+                vocab: "Tenderness = Ternura"
+            }
         ];
 
         function nuevoMensaje() {
             const indice = Math.floor(Math.random() * mensajes.length);
-            document.getElementById('mensaje').innerText = '"' + mensajes[indice] + '"';
+            const objetoMensaje = mensajes[indice];
+            
+            // Colocar mensaje en español
+            document.getElementById('mensaje').innerText = '"' + objetoMensaje.es + '"';
+            
+            const englishContainer = document.getElementById('englishContainer');
+            
+            // Verificar si esta frase tiene sección de inglés armada
+            if (objetoMensaje.en && objetoMensaje.vocab) {
+                document.getElementById('fraseIngles').innerText = '🇬🇧 "' + objetoMensaje.en + '"';
+                document.getElementById('vocabulario').innerText = '💡 Vocabulario: ' + objetoMensaje.vocab;
+                englishContainer.style.display = 'block'; // Mostrar el cuadro
+            } else {
+                englishContainer.style.display = 'none'; // Ocultar si no tiene inglés
+            }
         }
     </script>
 </body>
